@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { ChartData } from '../../types';
 
-interface AgeDistributionChartProps {
+interface RiskFactorsChartProps {
   data: ChartData;
 }
 
@@ -11,7 +11,7 @@ declare global {
   }
 }
 
-const AgeDistributionChart: React.FC<AgeDistributionChartProps> = ({ data }) => {
+const RiskFactorsChart: React.FC<RiskFactorsChartProps> = ({ data }) => {
   const chartRef = useRef<HTMLCanvasElement>(null);
   const chartInstance = useRef<any>(null);
 
@@ -30,15 +30,15 @@ const AgeDistributionChart: React.FC<AgeDistributionChartProps> = ({ data }) => 
         const ctx = chartRef.current.getContext('2d');
         if (ctx) {
           chartInstance.current = new window.Chart(ctx, {
-            type: 'bar',
+            type: 'horizontalBar',
             data: data,
             options: {
+              indexAxis: 'y',
               responsive: true,
               maintainAspectRatio: false,
               plugins: {
                 legend: {
-                  display: true,
-                  position: 'top',
+                  display: false,
                 },
                 tooltip: {
                   mode: 'index',
@@ -46,18 +46,13 @@ const AgeDistributionChart: React.FC<AgeDistributionChartProps> = ({ data }) => 
                 },
               },
               scales: {
-                y: {
+                x: {
                   beginAtZero: true,
                   title: {
                     display: true,
-                    text: 'Prevalence (%)',
+                    text: 'Impact Score',
                   },
-                },
-                x: {
-                  title: {
-                    display: true,
-                    text: 'Age Group',
-                  },
+                  max: 100,
                 },
               },
               animation: {
@@ -82,4 +77,4 @@ const AgeDistributionChart: React.FC<AgeDistributionChartProps> = ({ data }) => 
   return <canvas ref={chartRef} />;
 };
 
-export default AgeDistributionChart;
+export default RiskFactorsChart;

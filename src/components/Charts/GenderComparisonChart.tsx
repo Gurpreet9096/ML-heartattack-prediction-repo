@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { ChartData } from '../../types';
 
-interface AgeDistributionChartProps {
+interface GenderComparisonChartProps {
   data: ChartData;
 }
 
@@ -11,7 +11,7 @@ declare global {
   }
 }
 
-const AgeDistributionChart: React.FC<AgeDistributionChartProps> = ({ data }) => {
+const GenderComparisonChart: React.FC<GenderComparisonChartProps> = ({ data }) => {
   const chartRef = useRef<HTMLCanvasElement>(null);
   const chartInstance = useRef<any>(null);
 
@@ -30,7 +30,7 @@ const AgeDistributionChart: React.FC<AgeDistributionChartProps> = ({ data }) => 
         const ctx = chartRef.current.getContext('2d');
         if (ctx) {
           chartInstance.current = new window.Chart(ctx, {
-            type: 'bar',
+            type: 'line',
             data: data,
             options: {
               responsive: true,
@@ -60,6 +60,15 @@ const AgeDistributionChart: React.FC<AgeDistributionChartProps> = ({ data }) => 
                   },
                 },
               },
+              elements: {
+                line: {
+                  tension: 0.3,
+                },
+                point: {
+                  radius: 4,
+                  hoverRadius: 6,
+                },
+              },
               animation: {
                 duration: 1000,
                 easing: 'easeOutQuart',
@@ -82,4 +91,4 @@ const AgeDistributionChart: React.FC<AgeDistributionChartProps> = ({ data }) => 
   return <canvas ref={chartRef} />;
 };
 
-export default AgeDistributionChart;
+export default GenderComparisonChart;
